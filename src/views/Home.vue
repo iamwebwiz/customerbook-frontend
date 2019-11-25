@@ -7,12 +7,12 @@
       </div>
       <div class="d-flex justify-content-end mb-5">
         <button class="btn btn-primary" @click="addCustomer">
-          Add Customer
+          <i class="fa fa-plus"></i> Add Customer
         </button>
       </div>
       <div class="card shadow">
         <div class="card-body table-responsive">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -24,12 +24,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>John Doe</td>
-                <td>john@doe.com</td>
-                <td>0828388383</td>
-                <td>2, John Doe street</td>
+              <tr v-for="(customer, index) in customers" :key="index">
+                <th scope="row">{{ index + 1 }}</th>
+                <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.address }}</td>
                 <td></td>
               </tr>
             </tbody>
@@ -37,27 +37,42 @@
         </div>
       </div>
     </div>
+    <new-customer :customer="customer" :storeCustomer="storeCustomer"></new-customer>
   </div>
 </template>
 
 <script>
-import CustomerBookService from "../services/CustomerBookService";
 /* eslint-disable */
-const $ = window.$;
+import CustomerBookService from "../services/CustomerBookService";
+import NewCustomer from "../components/NewCustomer";
+
+let $ = window.$;
 
 export default {
   name: "home",
+  components: {
+    NewCustomer
+  },
   data: () => ({
-    customers: []
+    customers: [],
+    customer: {}
   }),
   mounted() {
-    CustomerBookService.fetchCustomers().then(response => {
-      this.customers = response.data;
-    });
+    this.fetchCustomers();
   },
   methods: {
+    fetchCustomers() {
+      CustomerBookService.fetchCustomers().then(response => {
+        this.customers = response.data;
+      });
+    },
     addCustomer() {
-      alert("It's gonna be alright!");
+      $("#newCustomerModal").modal('show');
+    },
+    storeCustomer() {
+      CustomerBookService.storeCustomer(this.customer).then(response => {
+        console.log(response);
+      });
     }
   }
 };
