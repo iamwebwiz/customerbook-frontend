@@ -1,4 +1,4 @@
-# frontend
+# CustomerBook
 
 ## Project setup
 ```
