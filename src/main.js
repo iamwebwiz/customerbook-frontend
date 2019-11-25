@@ -1,11 +1,13 @@
+/* eslint-disable */
+
 import Vue from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 
-import axios from "axios";
-
-window.axios = axios;
+window.axios = require('axios');
+window.$ = require('jquery');
+window.jQuery = require('jquery');
 
 Vue.config.productionTip = false;
 

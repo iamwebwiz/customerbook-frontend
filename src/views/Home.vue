@@ -6,7 +6,9 @@
         <h2>CustomerBook</h2>
       </div>
       <div class="d-flex justify-content-end mb-5">
-        <button class="btn btn-primary">Add Customer</button>
+        <button class="btn btn-primary" @click="addCustomer">
+          Add Customer
+        </button>
       </div>
       <div class="card shadow">
         <div class="card-body table-responsive">
@@ -40,6 +42,8 @@
 
 <script>
 import CustomerBookService from "../services/CustomerBookService";
+/* eslint-disable */
+const $ = window.$;
 
 export default {
   name: "home",
@@ -50,6 +54,11 @@ export default {
     CustomerBookService.fetchCustomers().then(response => {
       this.customers = response.data;
     });
+  },
+  methods: {
+    addCustomer() {
+      alert("It's gonna be alright!");
+    }
   }
 };
 </script>
